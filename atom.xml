@@ -3,11 +3,11 @@
   <title>若 叶</title>
   
   
-  <link href="http://yoursite.com/atom.xml" rel="self"/>
+  <link href="https://wangyinfeng123.github.io/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
-  <updated>2020-08-13T07:13:14.799Z</updated>
-  <id>http://yoursite.com/</id>
+  <link href="https://wangyinfeng123.github.io/"/>
+  <updated>2020-08-14T02:03:06.105Z</updated>
+  <id>https://wangyinfeng123.github.io/</id>
   
   <author>
     <name>若叶</name>
@@ -17,68 +17,64 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
-    <link href="http://yoursite.com/2020/08/13/tupian/"/>
-    <id>http://yoursite.com/2020/08/13/tupian/</id>
-    <published>2020-08-13T07:13:14.799Z</published>
-    <updated>2020-08-13T07:13:14.799Z</updated>
+    <title>一致哈希</title>
+    <link href="https://wangyinfeng123.github.io/2020/08/14/%E4%B8%80%E8%87%B4%E5%93%88%E5%B8%8C/"/>
+    <id>https://wangyinfeng123.github.io/2020/08/14/%E4%B8%80%E8%87%B4%E5%93%88%E5%B8%8C/</id>
+    <published>2020-08-14T01:58:46.000Z</published>
+    <updated>2020-08-14T02:03:06.105Z</updated>
     
-    <content type="html"><![CDATA[<hr><p>tupian</p><hr><p><img src="/Users/wangyinfeng/Downloads/BlogLogo.jpeg" alt="BlogLogo"></p>]]></content>
+    <content type="html"><![CDATA[<p>总结一致哈希原理、问题以及解决方案</p><a id="more"></a><h2 id="一致哈希"><a href="#一致哈希" class="headerlink" title="一致哈希"></a>一致哈希</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>普通取模哈希算法的改良版，哈希函数计算方法不变，只不过是通过构建环状的 Hash 空间代替普通的线性 Hash 空间。</p><p>首先，选择一个足够大的Hash空间（一般是0undefined）构成一个哈希环。<br>对于缓存集群内的每个存储服务器节点计算 Hash 值，可以用服务器的 IP 或 主机名计算得到哈希值，计算得到的哈希值就是服务节点在 Hash 环上的位置。<br>最后，对每个需要存储的数据 key 同样也计算一次哈希值，计算之后的哈希也映射到环上，数据存储的位置是沿顺时针的方向找到的环上的第一个节点</p><h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>** 扩展能力提升 **<br>    普通哈希算法当需要扩容增加服务节点的时候，会导致原油哈希映射大面积失效；<br>    当缓存服务集群要新增一个节点node3时，受影响的只有 key3 对应的数据 value3，此时只需把 value3 由原来的节点 node0 迁移到新增节点 node3 即可，其余节点存储的数据保持不动</p><p>** 容错能力提升 **<br>    普通哈希算法当某一服务节点宕机下线，也会导致原来哈希映射的大面积失效，失效的映射触发数据迁移影响缓存服务性能，容错能力不足。<br>    假设 node2 节点宕机下线，则原来存储于 node2 的数据 value2 和 value5 ，只需按顺时针方向选择新的存储节点 node0 存放即可，不会对其他节点数据产生影响。一致性哈希能把节点宕机造成的影响控制在顺时针相邻节点之间，避免对整个集群造成影响。</p><h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>** 数据倾斜 节点雪崩 **<br>    数据倾斜和节点宕机都可能会导致缓存雪崩，负载大的节点可能死机，导致大片缓存失效；</p><h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>** 虚拟节点 **<br>    对原来单一的物理节点在哈希环上虚拟出几个它的分身节点，这些分身节点称为虚拟节点。打到分身节点上的数据实际上也是映射到分身对应的物理节点上，这样一个物理节点可以通过虚拟节点的方式均匀分散在哈希环的各个部分，解决了数据倾斜问题。<br>    由于虚拟节点分散在哈希环各个部分，当某个节点宕机下线，他所存储的数据会被均匀分配给其他各个节点，避免对单一节点突发压力导致的节点雪崩问题。</p>]]></content>
     
     
-      
-      
-    <summary type="html">&lt;hr&gt;
-&lt;p&gt;tupian&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;img src=&quot;/Users/wangyinfeng/Downloads/BlogLogo.jpeg&quot; alt=&quot;BlogLogo&quot;&gt;&lt;/p&gt;
-</summary>
-      
+    <summary type="html">&lt;p&gt;总结一致哈希原理、问题以及解决方案&lt;/p&gt;</summary>
     
     
     
+    <category term="Linux" scheme="https://wangyinfeng123.github.io/categories/Linux/"/>
+    
+    <category term="服务器" scheme="https://wangyinfeng123.github.io/categories/Linux/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+    
+    <category term="负载均衡" scheme="https://wangyinfeng123.github.io/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
     
   </entry>
   
   <entry>
     <title>网络编程</title>
-    <link href="http://yoursite.com/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
-    <id>http://yoursite.com/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</id>
+    <link href="https://wangyinfeng123.github.io/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
+    <id>https://wangyinfeng123.github.io/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</id>
     <published>2020-08-13T06:20:45.213Z</published>
-    <updated>2020-08-13T07:49:43.665Z</updated>
+    <updated>2020-08-14T01:28:59.166Z</updated>
     
-    <content type="html"><![CDATA[<p>简要介绍Select、Poll、Epoll之间的区别</p><h2 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h2><h3 id="同步非阻塞"><a href="#同步非阻塞" class="headerlink" title="同步非阻塞"></a>同步非阻塞</h3><pre><code>都属于同步非阻塞IO复用，都可以同时监听多个文件描述符，等待由timeout参数指定的超时时间，直到文件描述符有就绪事件发生时，返回就绪的文件描述符数量；</code></pre><h3 id="内核交互"><a href="#内核交互" class="headerlink" title="内核交互"></a>内核交互</h3><pre><code>都是通过某种结构体变量告诉内核监听哪些文件描述符上的哪些事件，并使用该结构体类型的参数获取内核处理结果。</code></pre><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select:read_set,write_set,error_set</span><br><span class="line">poll:pollfd_set</span><br><span class="line">epoll:epoll_event</span><br></pre></td></tr></table></figure><h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><ol><li>select的文件描述符集fd_set仅仅是文件描述符集合，<strong>没有将文件描述符和事件绑定</strong>，所以select需要向内核传入3个这种类型的参数分别处理可读、可写、异常事件；另外内核每次会在线修改fd_set，因此<strong>程序下次调用select前还需要重置fd_set</strong>；</li><li>poll的参数类型pollfd把事件和文件描述符都定义在里面，<strong>只需要一个事件集参数</strong>，编程接口更加简洁；而且内核每次修改的是revents成员，没有改变events成员，因此<strong>下次调用poll时程序不需要重置pollfd</strong>；</li><li>epoll是一组系统调用，具体有epoll_create，epoll_ctl和epoll_wait，它<strong>在内核中维护一个事件表</strong>，通过epoll_ctl来添加、删除和修改事件，每次调用epoll_wait直接从内核取得注册的事件信息，<strong>不需要反复从用户空间将事件读入内核</strong>；</li><li><strong>select和poll每次返回的是用户注册的所有事件集合，</strong>包含就绪和未就绪事件，并且通过轮询的方式遍历整个文件描述符集合，导致<strong>程序索引就绪文件描述符的时间为O(n)**；epoll是通过回调的方式，内核检测到就绪事件触发回调函数，回调函数将该文件描述符插入内核就绪事件队列，由内核在适当时机将就绪事件队列内容拷贝到用户空间，</strong>epoll_wait返回的是就绪的事件个数<strong>，</strong>程序索引就绪文件描述符的时间为O(1)；**</li><li>poll和epoll<strong>最多监听的文件描述符个数都能达到系统允许的最大数目</strong>65535，而<strong>select通常有限制；</strong></li><li><strong>select和poll只能工作在水平触发LT模式</strong>，<strong>epoll可以工作在边缘出发ET模式</strong>，并且可以通过EPOLLONESHOT属性进一步减少可读可写异常的事件触发次数；</li></ol><h2 id="大小端字节序"><a href="#大小端字节序" class="headerlink" title="大小端字节序"></a>大小端字节序</h2><h3 id="大端字节序"><a href="#大端字节序" class="headerlink" title="大端字节序"></a>大端字节序</h3><p>又称网络字节序，数据的高位字节存放在内存的低地址处，低位字节存放在内存的高地址处；</p><h3 id="小端字节序"><a href="#小端字节序" class="headerlink" title="小端字节序"></a>小端字节序</h3><p>又称主机字节序，数据的高位字节存放在内存的高地址处，低位字节存放在内存的低地址处；</p><h2 id="短连接与长连接"><a href="#短连接与长连接" class="headerlink" title="短连接与长连接"></a>短连接与长连接</h2><h3 id="短连接"><a href="#短连接" class="headerlink" title="短连接"></a>短连接</h3><pre><code>服务端在处理完客户端的一个http请求以后主动关闭TCP连接，此后，客户端如果再发送http请求需要重新建立新的TCP连接，也就是说，**同一个客户的多个http请求不能共用同一个TCP连接</code></pre><h3 id="长连接"><a href="#长连接" class="headerlink" title="长连接"></a>长连接</h3><pre><code>同一个客户的多个http请求可以共用同一个TCP连接，**即客户端在fasonghttp请求之后，再次发起http请求不需要重新建立新的TCP连接；</code></pre><p>长连接的优势：<strong>极大减少网络建立TCP连接导致的负荷，同时缩短了每次请求的时间延迟</strong>。http请求和回答报文中的connection字段对应的closed与keep-alive分别对应短连接与长连接</p><h2 id="I-O设计中reactor和proactor模式的区别"><a href="#I-O设计中reactor和proactor模式的区别" class="headerlink" title="I/O设计中reactor和proactor模式的区别"></a>I/O设计中reactor和proactor模式的区别</h2><ul><li>1、 Reactor被动的等待指示事件的到来并作出反应，有一个等待的过程，做什么都要先放入到监听事件集合中等待handler可用时再进行操作，实现相对简单，对于耗时短的处理场景比较高效，但Reactor处理耗时长的操作会造成事件分发的阻塞，影响到后续事件的处理。 </li><li>Proactor直接调用异步读写操作，调用完后立刻返回，实现了一个主动的事件分离和分发模型；这种设计允许多个任务并发的执行，从而提高吞吐量；并可执行耗时长的任务（各个任务间互不影响），Proactor性能更高，能够处理耗时长的并发场景，但Proactor实现逻辑复杂；依赖操作系统对异步的支持，目前实现了纯异步操作的操作系统少，实现优秀的如windows IOCP，但由于其windows系统用于服务器的局限性，目前应用范围较小；而Unix/Linux系统对纯异步的支持有限，应用事件驱动的主流还是通过select/epoll来实现。</li></ul>]]></content>
+    <content type="html"><![CDATA[<p>简要介绍Select、Poll、Epoll之间的区别</p><a id="more"></a><h2 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h2><h3 id="同步非阻塞"><a href="#同步非阻塞" class="headerlink" title="同步非阻塞"></a>同步非阻塞</h3><pre><code>都属于同步非阻塞IO复用，都可以同时监听多个文件描述符，等待由timeout参数指定的超时时间，直到文件描述符有就绪事件发生时，返回就绪的文件描述符数量；</code></pre><h3 id="内核交互"><a href="#内核交互" class="headerlink" title="内核交互"></a>内核交互</h3><pre><code>都是通过某种结构体变量告诉内核监听哪些文件描述符上的哪些事件，并使用该结构体类型的参数获取内核处理结果。</code></pre><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select:read_set,write_set,error_set</span><br><span class="line">poll:pollfd_set</span><br><span class="line">epoll:epoll_event</span><br></pre></td></tr></table></figure><h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><ol><li>select的文件描述符集fd_set仅仅是文件描述符集合，<strong>没有将文件描述符和事件绑定</strong>，所以select需要向内核传入3个这种类型的参数分别处理可读、可写、异常事件；另外内核每次会在线修改fd_set，因此<strong>程序下次调用select前还需要重置fd_set</strong>；</li><li>poll的参数类型pollfd把事件和文件描述符都定义在里面，<strong>只需要一个事件集参数</strong>，编程接口更加简洁；而且内核每次修改的是revents成员，没有改变events成员，因此<strong>下次调用poll时程序不需要重置pollfd</strong>；</li><li>epoll是一组系统调用，具体有epoll_create，epoll_ctl和epoll_wait，它<strong>在内核中维护一个事件表</strong>，通过epoll_ctl来添加、删除和修改事件，每次调用epoll_wait直接从内核取得注册的事件信息，<strong>不需要反复从用户空间将事件读入内核</strong>；</li><li><strong>select和poll每次返回的是用户注册的所有事件集合，</strong>包含就绪和未就绪事件，并且通过轮询的方式遍历整个文件描述符集合，导致<strong>程序索引就绪文件描述符的时间为O(n)**；epoll是通过回调的方式，内核检测到就绪事件触发回调函数，回调函数将该文件描述符插入内核就绪事件队列，由内核在适当时机将就绪事件队列内容拷贝到用户空间，</strong>epoll_wait返回的是就绪的事件个数<strong>，</strong>程序索引就绪文件描述符的时间为O(1)；**</li><li>poll和epoll<strong>最多监听的文件描述符个数都能达到系统允许的最大数目</strong>65535，而<strong>select通常有限制；</strong></li><li><strong>select和poll只能工作在水平触发LT模式</strong>，<strong>epoll可以工作在边缘出发ET模式</strong>，并且可以通过EPOLLONESHOT属性进一步减少可读可写异常的事件触发次数；</li></ol><h2 id="大小端字节序"><a href="#大小端字节序" class="headerlink" title="大小端字节序"></a>大小端字节序</h2><h3 id="大端字节序"><a href="#大端字节序" class="headerlink" title="大端字节序"></a>大端字节序</h3><p>又称网络字节序，数据的高位字节存放在内存的低地址处，低位字节存放在内存的高地址处；</p><h3 id="小端字节序"><a href="#小端字节序" class="headerlink" title="小端字节序"></a>小端字节序</h3><p>又称主机字节序，数据的高位字节存放在内存的高地址处，低位字节存放在内存的低地址处；</p><h2 id="短连接与长连接"><a href="#短连接与长连接" class="headerlink" title="短连接与长连接"></a>短连接与长连接</h2><h3 id="短连接"><a href="#短连接" class="headerlink" title="短连接"></a>短连接</h3><pre><code>服务端在处理完客户端的一个http请求以后主动关闭TCP连接，此后，客户端如果再发送http请求需要重新建立新的TCP连接，也就是说，**同一个客户的多个http请求不能共用同一个TCP连接</code></pre><h3 id="长连接"><a href="#长连接" class="headerlink" title="长连接"></a>长连接</h3><pre><code>同一个客户的多个http请求可以共用同一个TCP连接，**即客户端在fasonghttp请求之后，再次发起http请求不需要重新建立新的TCP连接；</code></pre><p>长连接的优势：<strong>极大减少网络建立TCP连接导致的负荷，同时缩短了每次请求的时间延迟</strong>。http请求和回答报文中的connection字段对应的closed与keep-alive分别对应短连接与长连接</p><h2 id="I-O设计中reactor和proactor模式的区别"><a href="#I-O设计中reactor和proactor模式的区别" class="headerlink" title="I/O设计中reactor和proactor模式的区别"></a>I/O设计中reactor和proactor模式的区别</h2><ul><li>1、 Reactor被动的等待指示事件的到来并作出反应，有一个等待的过程，做什么都要先放入到监听事件集合中等待handler可用时再进行操作，实现相对简单，对于耗时短的处理场景比较高效，但Reactor处理耗时长的操作会造成事件分发的阻塞，影响到后续事件的处理。 </li><li>Proactor直接调用异步读写操作，调用完后立刻返回，实现了一个主动的事件分离和分发模型；这种设计允许多个任务并发的执行，从而提高吞吐量；并可执行耗时长的任务（各个任务间互不影响），Proactor性能更高，能够处理耗时长的并发场景，但Proactor实现逻辑复杂；依赖操作系统对异步的支持，目前实现了纯异步操作的操作系统少，实现优秀的如windows IOCP，但由于其windows系统用于服务器的局限性，目前应用范围较小；而Unix/Linux系统对纯异步的支持有限，应用事件驱动的主流还是通过select/epoll来实现。</li></ul>]]></content>
     
     
-      
-      
-    <summary type="html">&lt;p&gt;简要介绍Select、Poll、Epoll之间的区别&lt;/p&gt;
-&lt;h2 id=&quot;相同点&quot;&gt;&lt;a href=&quot;#相同点&quot; class=&quot;headerlink&quot; title=&quot;相同点&quot;&gt;&lt;/a&gt;相同点&lt;/h2&gt;&lt;h3 id=&quot;同步非阻塞&quot;&gt;&lt;a href=&quot;#同步非阻塞&quot; cla</summary>
-      
+    <summary type="html">&lt;p&gt;简要介绍Select、Poll、Epoll之间的区别&lt;/p&gt;</summary>
     
     
     
+    <category term="Linux" scheme="https://wangyinfeng123.github.io/categories/Linux/"/>
     
-    <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+    <category term="网络编程" scheme="https://wangyinfeng123.github.io/categories/Linux/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
     
-    <category term="网络编程" scheme="http://yoursite.com/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
+    
+    <category term="Linux" scheme="https://wangyinfeng123.github.io/tags/Linux/"/>
+    
+    <category term="网络编程" scheme="https://wangyinfeng123.github.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
     
   </entry>
   
   <entry>
     <title>Hello World</title>
-    <link href="http://yoursite.com/2020/08/12/hello-world/"/>
-    <id>http://yoursite.com/2020/08/12/hello-world/</id>
+    <link href="https://wangyinfeng123.github.io/2020/08/12/hello-world/"/>
+    <id>https://wangyinfeng123.github.io/2020/08/12/hello-world/</id>
     <published>2020-08-12T13:22:22.134Z</published>
-    <updated>2020-08-12T13:22:22.134Z</updated>
+    <updated>2020-08-13T13:18:42.833Z</updated>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><a id="more"></a><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
     
     
-      
-      
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for</summary>
-      
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;</summary>
     
     
     
