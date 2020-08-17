@@ -22,21 +22,23 @@
     var CONFIG = {"hostname":"wangyinfeng123.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="简要介绍Select、Poll、Epoll之间的区别">
+  <meta name="description" content="简要介绍布隆过滤器定义、应用场景及优缺点。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="网络编程">
-<meta property="og:url" content="https://wangyinfeng123.github.io/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:title" content="布隆过滤器">
+<meta property="og:url" content="https://wangyinfeng123.github.io/2020/08/17/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/index.html">
 <meta property="og:site_name" content="若 叶">
-<meta property="og:description" content="简要介绍Select、Poll、Epoll之间的区别">
+<meta property="og:description" content="简要介绍布隆过滤器定义、应用场景及优缺点。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-08-13T06:20:45.213Z">
-<meta property="article:modified_time" content="2020-08-14T01:28:59.166Z">
+<meta property="og:image" content="https://wangyinfeng123.github.io/2020/08/17/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/截屏2020-08-1709.36.49.png">
+<meta property="article:published_time" content="2020-08-17T01:29:39.000Z">
+<meta property="article:modified_time" content="2020-08-17T01:38:36.141Z">
 <meta property="article:author" content="若叶">
-<meta property="article:tag" content="Linux">
-<meta property="article:tag" content="网络编程">
+<meta property="article:tag" content="布隆过滤器">
+<meta property="article:tag" content="大数据">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wangyinfeng123.github.io/2020/08/17/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/截屏2020-08-1709.36.49.png">
 
-<link rel="canonical" href="https://wangyinfeng123.github.io/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+<link rel="canonical" href="https://wangyinfeng123.github.io/2020/08/17/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/">
 
 
 <script id="page-configurations">
@@ -49,7 +51,7 @@
   };
 </script>
 <script src="/lib/fireworks.js"></script>
-  <title>网络编程 | 若 叶</title>
+  <title>布隆过滤器 | 若 叶</title>
   
 
 
@@ -172,7 +174,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wangyinfeng123.github.io/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="https://wangyinfeng123.github.io/2020/08/17/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -185,7 +187,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          网络编程
+          布隆过滤器
         </h1>
 
         <div class="post-meta">
@@ -194,27 +196,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-08-13 14:20:45" itemprop="dateCreated datePublished" datetime="2020-08-13T14:20:45+08:00">2020-08-13</time>
+              <time title="创建时间：2020-08-17 09:29:39 / 修改时间：09:38:36" itemprop="dateCreated datePublished" datetime="2020-08-17T09:29:39+08:00">2020-08-17</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-14 09:28:59" itemprop="dateModified" datetime="2020-08-14T09:28:59+08:00">2020-08-14</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">网络编程</span></a>
+                  <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">服务器</span></a>
                 </span>
             </span>
 
@@ -231,14 +223,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.8k</span>
+              <span>1.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -250,30 +242,42 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>简要介绍Select、Poll、Epoll之间的区别</p>
+        <p>简要介绍布隆过滤器定义、应用场景及优缺点。</p>
 <a id="more"></a>
 
-<h2 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h2><h3 id="同步非阻塞"><a href="#同步非阻塞" class="headerlink" title="同步非阻塞"></a>同步非阻塞</h3><pre><code>都属于同步非阻塞IO复用，都可以同时监听多个文件描述符，等待由timeout参数指定的超时时间，直到文件描述符有就绪事件发生时，返回就绪的文件描述符数量；</code></pre>
-<h3 id="内核交互"><a href="#内核交互" class="headerlink" title="内核交互"></a>内核交互</h3><pre><code>都是通过某种结构体变量告诉内核监听哪些文件描述符上的哪些事件，并使用该结构体类型的参数获取内核处理结果。</code></pre>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select:read_set,write_set,error_set</span><br><span class="line">poll:pollfd_set</span><br><span class="line">epoll:epoll_event</span><br></pre></td></tr></table></figure>
+<p><strong>简介：</strong></p>
+<p> 布隆过滤器包含一个很长的二进制向量和一系列随机映射函数，<strong>可以检索一个元素是否在一个集合中</strong>。<strong>它的优点是空间效率和查询时间都比一般的算法要好的多，缺点是有一定的误识别率和删除困难</strong></p>
+<p>布隆过滤器可以检查值是 <strong>“可能在集合中”</strong> 还是 <strong>“绝对不在集合中”</strong>。“可能” 表示有一定的概率，也就是说可能存在一定为误判率。</p>
+<p><strong>使用：</strong></p>
+<img src="/2020/08/17/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/截屏2020-08-1709.36.49.png" alt="截屏2020-08-1709.36.49" style="zoom:50%;">
 
-<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><ol>
-<li>select的文件描述符集fd_set仅仅是文件描述符集合，<strong>没有将文件描述符和事件绑定</strong>，所以select需要向内核传入3个这种类型的参数分别处理可读、可写、异常事件；另外内核每次会在线修改fd_set，因此<strong>程序下次调用select前还需要重置fd_set</strong>；</li>
-<li>poll的参数类型pollfd把事件和文件描述符都定义在里面，<strong>只需要一个事件集参数</strong>，编程接口更加简洁；而且内核每次修改的是revents成员，没有改变events成员，因此<strong>下次调用poll时程序不需要重置pollfd</strong>；</li>
-<li>epoll是一组系统调用，具体有epoll_create，epoll_ctl和epoll_wait，它<strong>在内核中维护一个事件表</strong>，通过epoll_ctl来添加、删除和修改事件，每次调用epoll_wait直接从内核取得注册的事件信息，<strong>不需要反复从用户空间将事件读入内核</strong>；</li>
-<li><strong>select和poll每次返回的是用户注册的所有事件集合，</strong>包含就绪和未就绪事件，并且通过轮询的方式遍历整个文件描述符集合，导致<strong>程序索引就绪文件描述符的时间为O(n)**；epoll是通过回调的方式，内核检测到就绪事件触发回调函数，回调函数将该文件描述符插入内核就绪事件队列，由内核在适当时机将就绪事件队列内容拷贝到用户空间，</strong>epoll_wait返回的是就绪的事件个数<strong>，</strong>程序索引就绪文件描述符的时间为O(1)；**</li>
-<li>poll和epoll<strong>最多监听的文件描述符个数都能达到系统允许的最大数目</strong>65535，而<strong>select通常有限制；</strong></li>
-<li><strong>select和poll只能工作在水平触发LT模式</strong>，<strong>epoll可以工作在边缘出发ET模式</strong>，并且可以通过EPOLLONESHOT属性进一步减少可读可写异常的事件触发次数；</li>
+<ol>
+<li>布隆过滤器本质上是由长度为 m 的位向量或位列表（仅包含 0 或 1 位值的列表）组成，最初所有的值均设置为 0；</li>
+<li>将数据项添加到布隆过滤器中，我们会提供 K 个不同的哈希函数，并将该数据哈希之后的结果位置上k个对应索引位的值置为 “1”。</li>
+<li>当对值进行搜索时，与哈希表类似，我们将使用 K 个哈希函数对 ”搜索的值“ 进行哈希运算，并查看其生成的索引值；</li>
+<li>相应的索引位都被置为 1，这意味着我们可以说 ”fullstack“ 可能已经插入到集合中。事实上这可能出现误判，原因是由于哈希冲突导致的巧合而将不同的元素存储在相同的比特位上。</li>
+<li><strong>搜索一个值的时候，若该值经过 K 个哈希函数运算后的任何一个索引位为 ”0“，那么该值肯定不在集合中。但如果所有哈希索引值均为 ”1“，则只能说该搜索的值可能存在集合中。</strong></li>
 </ol>
-<h2 id="大小端字节序"><a href="#大小端字节序" class="headerlink" title="大小端字节序"></a>大小端字节序</h2><h3 id="大端字节序"><a href="#大端字节序" class="headerlink" title="大端字节序"></a>大端字节序</h3><p>又称网络字节序，数据的高位字节存放在内存的低地址处，低位字节存放在内存的高地址处；</p>
-<h3 id="小端字节序"><a href="#小端字节序" class="headerlink" title="小端字节序"></a>小端字节序</h3><p>又称主机字节序，数据的高位字节存放在内存的高地址处，低位字节存放在内存的低地址处；</p>
-<h2 id="短连接与长连接"><a href="#短连接与长连接" class="headerlink" title="短连接与长连接"></a>短连接与长连接</h2><h3 id="短连接"><a href="#短连接" class="headerlink" title="短连接"></a>短连接</h3><pre><code>服务端在处理完客户端的一个http请求以后主动关闭TCP连接，此后，客户端如果再发送http请求需要重新建立新的TCP连接，也就是说，**同一个客户的多个http请求不能共用同一个TCP连接</code></pre>
-<h3 id="长连接"><a href="#长连接" class="headerlink" title="长连接"></a>长连接</h3><pre><code>同一个客户的多个http请求可以共用同一个TCP连接，**即客户端在fasonghttp请求之后，再次发起http请求不需要重新建立新的TCP连接；</code></pre>
-<p>长连接的优势：<strong>极大减少网络建立TCP连接导致的负荷，同时缩短了每次请求的时间延迟</strong>。http请求和回答报文中的connection字段对应的closed与keep-alive分别对应短连接与长连接</p>
-<h2 id="I-O设计中reactor和proactor模式的区别"><a href="#I-O设计中reactor和proactor模式的区别" class="headerlink" title="I/O设计中reactor和proactor模式的区别"></a>I/O设计中reactor和proactor模式的区别</h2><ul>
-<li>1、 Reactor被动的等待指示事件的到来并作出反应，有一个等待的过程，做什么都要先放入到监听事件集合中等待handler可用时再进行操作，实现相对简单，对于耗时短的处理场景比较高效，但Reactor处理耗时长的操作会造成事件分发的阻塞，影响到后续事件的处理。 </li>
-<li>Proactor直接调用异步读写操作，调用完后立刻返回，实现了一个主动的事件分离和分发模型；这种设计允许多个任务并发的执行，从而提高吞吐量；并可执行耗时长的任务（各个任务间互不影响），Proactor性能更高，能够处理耗时长的并发场景，但Proactor实现逻辑复杂；依赖操作系统对异步的支持，目前实现了纯异步操作的操作系统少，实现优秀的如windows IOCP，但由于其windows系统用于服务器的局限性，目前应用范围较小；而Unix/Linux系统对纯异步的支持有限，应用事件驱动的主流还是通过select/epoll来实现。</li>
+<p><strong>应用场景：</strong></p>
+<ul>
+<li>网页爬虫对 URL 去重，避免爬取相同的 URL 地址；</li>
+<li>反垃圾邮件，从数十亿个垃圾邮件列表中判断某邮箱是否垃圾邮箱；</li>
+<li>Google Chrome 使用布隆过滤器识别恶意 URL；</li>
+<li>Medium 使用布隆过滤器避免推荐给用户已经读过的文章；</li>
+<li>Google BigTable，Apache HBbase 和 Apache Cassandra 使用布隆过滤器减少对不存在的行和列的查找。 除了上述的应用场景之外，布隆过滤器还有一个应用场景就是<strong>解决缓存穿透的问题</strong>。所谓的缓存穿透就是服务调用方<strong>每次都是查询不在缓存中的数据</strong>，这样每次服务调用都会到数据库中进行查询，如果这类请求比较多的话，就会导致数据库压力增大，这样缓存就失去了意义。</li>
 </ul>
+<p>​      可以预先把数据查询的主键，比如用户 ID 或文章 ID 缓存到过滤器中。当<strong>根据 ID 进行数据查询的时候，我们先判断该 ID 是否存在，若存在的话，则进行下一步处理</strong>。若不存在的话，直接返回，这样就不会触发后续的数据库查询。需要注意的是<strong>缓存穿透不能完全解决，我们只能将其控制在一个可以容忍的范围内</strong>。</p>
+<p><strong>优点：</strong></p>
+<p><strong>时间复杂度</strong></p>
+<ul>
+<li>添加元素时，由于<strong>不需要迭代位数组，而是简单的设置索引位的值</strong>，所以操作所花费的时间仅取决于散列函数的个数，所以对于对于k个哈希函数的布隆过滤器，添加元素的时间复杂度为O(k) 。</li>
+<li>查询元素时，<strong>对于k个哈希函数的布隆过滤器，只需要在位数组中检查的索引数量有一个不变的上界</strong>，所以查询元素的时间复杂度也为O(k)。</li>
+</ul>
+<p><strong>空间复杂度</strong></p>
+<p>​    由于<strong>不需要存储元素，只需依赖一定长度的位数组判断是否存在</strong>，并且<strong>数组长度的大小不取决于集合中元素的多少，可以在误判率变大或效率变低的代价下减少存储（位数组）</strong>。</p>
+<p><strong>缺点：</strong></p>
+<p>有一定的误判率，随着存入集合的元素的增加，误判率也随之增加。<strong>误判率大小和三个指标有关：位数组长度m、集合长度n、散列函数个数k</strong>。</p>
+<p>删除困难，当删除一个元素时，因为哈希冲突的问题，<strong>可能会误删具有相同索引位的其他元素</strong>，所以删除时不需要（不容易）对位数组进行处理。</p>
 
     </div>
 
@@ -292,12 +296,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>文章标题:</span><a href="/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></p>
+  <p><span>文章标题:</span><a href="/2020/08/17/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/">布隆过滤器</a></p>
   <p><span>文章作者:</span><a href="/" title="访问  的个人博客"> 若叶 </a></p>
-  <p><span>发布时间:</span>2020年08月13日 - 14:20</p>
-  <p><span>最后更新:</span>2020年08月14日 - 09:28</p>
-  <p><span>原始链接:</span><a href="/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" title="网络编程">https://wangyinfeng123.github.io/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://wangyinfeng123.github.io/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2020年08月17日 - 09:29</p>
+  <p><span>最后更新:</span>2020年08月17日 - 09:38</p>
+  <p><span>原始链接:</span><a href="/2020/08/17/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/" title="布隆过滤器">https://wangyinfeng123.github.io/2020/08/17/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://wangyinfeng123.github.io/2020/08/17/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -348,8 +352,8 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
-              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag"><i class="fa fa-tag"></i> 网络编程</a>
+              <a href="/tags/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/" rel="tag"><i class="fa fa-tag"></i> 布隆过滤器</a>
+              <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag"><i class="fa fa-tag"></i> 大数据</a>
           </div>
 
         
@@ -358,13 +362,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/08/12/hello-world/" rel="prev" title="Hello World">
-      <i class="fa fa-chevron-left"></i> Hello World
+    <a href="/2020/08/14/%E4%B8%80%E8%87%B4%E5%93%88%E5%B8%8C/" rel="prev" title="一致哈希">
+      <i class="fa fa-chevron-left"></i> 一致哈希
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/08/14/%E4%B8%80%E8%87%B4%E5%93%88%E5%B8%8C/" rel="next" title="一致哈希">
-      一致哈希 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -428,7 +429,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%90%8C%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">相同点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E9%9D%9E%E9%98%BB%E5%A1%9E"><span class="nav-number">1.1.</span> <span class="nav-text">同步非阻塞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E4%BA%A4%E4%BA%92"><span class="nav-number">1.2.</span> <span class="nav-text">内核交互</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%BA%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text">区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E5%B0%8F%E7%AB%AF%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="nav-number">3.</span> <span class="nav-text">大小端字节序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E7%AB%AF%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="nav-number">3.1.</span> <span class="nav-text">大端字节序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%AB%AF%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="nav-number">3.2.</span> <span class="nav-text">小端字节序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%AD%E8%BF%9E%E6%8E%A5%E4%B8%8E%E9%95%BF%E8%BF%9E%E6%8E%A5"><span class="nav-number">4.</span> <span class="nav-text">短连接与长连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%AD%E8%BF%9E%E6%8E%A5"><span class="nav-number">4.1.</span> <span class="nav-text">短连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%BF%E8%BF%9E%E6%8E%A5"><span class="nav-number">4.2.</span> <span class="nav-text">长连接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#I-O%E8%AE%BE%E8%AE%A1%E4%B8%ADreactor%E5%92%8Cproactor%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">5.</span> <span class="nav-text">I&#x2F;O设计中reactor和proactor模式的区别</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

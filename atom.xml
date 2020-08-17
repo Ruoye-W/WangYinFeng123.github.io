@@ -6,7 +6,7 @@
   <link href="https://wangyinfeng123.github.io/atom.xml" rel="self"/>
   
   <link href="https://wangyinfeng123.github.io/"/>
-  <updated>2020-08-14T02:03:06.105Z</updated>
+  <updated>2020-08-17T01:38:36.141Z</updated>
   <id>https://wangyinfeng123.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>布隆过滤器</title>
+    <link href="https://wangyinfeng123.github.io/2020/08/17/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/"/>
+    <id>https://wangyinfeng123.github.io/2020/08/17/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/</id>
+    <published>2020-08-17T01:29:39.000Z</published>
+    <updated>2020-08-17T01:38:36.141Z</updated>
+    
+    <content type="html"><![CDATA[<p>简要介绍布隆过滤器定义、应用场景及优缺点。</p><a id="more"></a><p><strong>简介：</strong></p><p> 布隆过滤器包含一个很长的二进制向量和一系列随机映射函数，<strong>可以检索一个元素是否在一个集合中</strong>。<strong>它的优点是空间效率和查询时间都比一般的算法要好的多，缺点是有一定的误识别率和删除困难</strong></p><p>布隆过滤器可以检查值是 <strong>“可能在集合中”</strong> 还是 <strong>“绝对不在集合中”</strong>。“可能” 表示有一定的概率，也就是说可能存在一定为误判率。</p><p><strong>使用：</strong></p><img src="/2020/08/17/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/截屏2020-08-1709.36.49.png" alt="截屏2020-08-1709.36.49" style="zoom:50%;"><ol><li>布隆过滤器本质上是由长度为 m 的位向量或位列表（仅包含 0 或 1 位值的列表）组成，最初所有的值均设置为 0；</li><li>将数据项添加到布隆过滤器中，我们会提供 K 个不同的哈希函数，并将该数据哈希之后的结果位置上k个对应索引位的值置为 “1”。</li><li>当对值进行搜索时，与哈希表类似，我们将使用 K 个哈希函数对 ”搜索的值“ 进行哈希运算，并查看其生成的索引值；</li><li>相应的索引位都被置为 1，这意味着我们可以说 ”fullstack“ 可能已经插入到集合中。事实上这可能出现误判，原因是由于哈希冲突导致的巧合而将不同的元素存储在相同的比特位上。</li><li><strong>搜索一个值的时候，若该值经过 K 个哈希函数运算后的任何一个索引位为 ”0“，那么该值肯定不在集合中。但如果所有哈希索引值均为 ”1“，则只能说该搜索的值可能存在集合中。</strong></li></ol><p><strong>应用场景：</strong></p><ul><li>网页爬虫对 URL 去重，避免爬取相同的 URL 地址；</li><li>反垃圾邮件，从数十亿个垃圾邮件列表中判断某邮箱是否垃圾邮箱；</li><li>Google Chrome 使用布隆过滤器识别恶意 URL；</li><li>Medium 使用布隆过滤器避免推荐给用户已经读过的文章；</li><li>Google BigTable，Apache HBbase 和 Apache Cassandra 使用布隆过滤器减少对不存在的行和列的查找。 除了上述的应用场景之外，布隆过滤器还有一个应用场景就是<strong>解决缓存穿透的问题</strong>。所谓的缓存穿透就是服务调用方<strong>每次都是查询不在缓存中的数据</strong>，这样每次服务调用都会到数据库中进行查询，如果这类请求比较多的话，就会导致数据库压力增大，这样缓存就失去了意义。</li></ul><p>​      可以预先把数据查询的主键，比如用户 ID 或文章 ID 缓存到过滤器中。当<strong>根据 ID 进行数据查询的时候，我们先判断该 ID 是否存在，若存在的话，则进行下一步处理</strong>。若不存在的话，直接返回，这样就不会触发后续的数据库查询。需要注意的是<strong>缓存穿透不能完全解决，我们只能将其控制在一个可以容忍的范围内</strong>。</p><p><strong>优点：</strong></p><p><strong>时间复杂度</strong></p><ul><li>添加元素时，由于<strong>不需要迭代位数组，而是简单的设置索引位的值</strong>，所以操作所花费的时间仅取决于散列函数的个数，所以对于对于k个哈希函数的布隆过滤器，添加元素的时间复杂度为O(k) 。</li><li>查询元素时，<strong>对于k个哈希函数的布隆过滤器，只需要在位数组中检查的索引数量有一个不变的上界</strong>，所以查询元素的时间复杂度也为O(k)。</li></ul><p><strong>空间复杂度</strong></p><p>​    由于<strong>不需要存储元素，只需依赖一定长度的位数组判断是否存在</strong>，并且<strong>数组长度的大小不取决于集合中元素的多少，可以在误判率变大或效率变低的代价下减少存储（位数组）</strong>。</p><p><strong>缺点：</strong></p><p>有一定的误判率，随着存入集合的元素的增加，误判率也随之增加。<strong>误判率大小和三个指标有关：位数组长度m、集合长度n、散列函数个数k</strong>。</p><p>删除困难，当删除一个元素时，因为哈希冲突的问题，<strong>可能会误删具有相同索引位的其他元素</strong>，所以删除时不需要（不容易）对位数组进行处理。</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;简要介绍布隆过滤器定义、应用场景及优缺点。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="服务器" scheme="https://wangyinfeng123.github.io/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+    
+    <category term="布隆过滤器" scheme="https://wangyinfeng123.github.io/tags/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/"/>
+    
+    <category term="大数据" scheme="https://wangyinfeng123.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+  </entry>
   
   <entry>
     <title>一致哈希</title>
