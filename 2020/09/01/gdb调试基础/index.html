@@ -22,21 +22,19 @@
     var CONFIG = {"hostname":"wangyinfeng123.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="简要介绍Select、Poll、Epoll之间的区别">
+  <meta name="description" content="gdb调试基础知识和常用的基本指令。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="网络编程">
-<meta property="og:url" content="https://wangyinfeng123.github.io/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:title" content="gdb调试基础">
+<meta property="og:url" content="https://wangyinfeng123.github.io/2020/09/01/gdb%E8%B0%83%E8%AF%95%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="若 叶">
-<meta property="og:description" content="简要介绍Select、Poll、Epoll之间的区别">
+<meta property="og:description" content="gdb调试基础知识和常用的基本指令。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-08-13T06:20:45.213Z">
-<meta property="article:modified_time" content="2020-08-14T01:28:59.166Z">
+<meta property="article:published_time" content="2020-09-01T08:19:48.000Z">
+<meta property="article:modified_time" content="2020-09-01T08:43:05.029Z">
 <meta property="article:author" content="若叶">
-<meta property="article:tag" content="Linux">
-<meta property="article:tag" content="网络编程">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://wangyinfeng123.github.io/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+<link rel="canonical" href="https://wangyinfeng123.github.io/2020/09/01/gdb%E8%B0%83%E8%AF%95%E5%9F%BA%E7%A1%80/">
 
 
 <script id="page-configurations">
@@ -51,7 +49,7 @@
 <script src="/lib/fireworks.js"></script>
   <title>
 
-	网络编程 | 若 叶
+	gdb调试基础 | 若 叶
 	
 </title>
   
@@ -180,7 +178,7 @@ post posts-expand
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wangyinfeng123.github.io/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="https://wangyinfeng123.github.io/2020/09/01/gdb%E8%B0%83%E8%AF%95%E5%9F%BA%E7%A1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -193,7 +191,7 @@ post posts-expand
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          网络编程
+          gdb调试基础
         </h1>
 
         <div class="post-meta">
@@ -202,16 +200,10 @@ post posts-expand
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-08-13 14:20:45" itemprop="dateCreated datePublished" datetime="2020-08-13T14:20:45+08:00">2020-08-13</time>
+              <time title="创建时间：2020-09-01 16:19:48 / 修改时间：16:43:05" itemprop="dateCreated datePublished" datetime="2020-09-01T16:19:48+08:00">2020-09-01</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-14 09:28:59" itemprop="dateModified" datetime="2020-08-14T09:28:59+08:00">2020-08-14</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -219,10 +211,6 @@ post posts-expand
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">网络编程</span></a>
                 </span>
             </span>
 
@@ -239,14 +227,14 @@ post posts-expand
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.8k</span>
+              <span>4.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -258,30 +246,81 @@ post posts-expand
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>简要介绍Select、Poll、Epoll之间的区别</p>
+        <p>gdb调试基础知识和常用的基本指令。</p>
 <a id="more"></a>
 
-<h2 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h2><h3 id="同步非阻塞"><a href="#同步非阻塞" class="headerlink" title="同步非阻塞"></a>同步非阻塞</h3><pre><code>都属于同步非阻塞IO复用，都可以同时监听多个文件描述符，等待由timeout参数指定的超时时间，直到文件描述符有就绪事件发生时，返回就绪的文件描述符数量；</code></pre>
-<h3 id="内核交互"><a href="#内核交互" class="headerlink" title="内核交互"></a>内核交互</h3><pre><code>都是通过某种结构体变量告诉内核监听哪些文件描述符上的哪些事件，并使用该结构体类型的参数获取内核处理结果。</code></pre>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select:read_set,write_set,error_set</span><br><span class="line">poll:pollfd_set</span><br><span class="line">epoll:epoll_event</span><br></pre></td></tr></table></figure>
+<p><strong>编译时加入可调试选项，启动服务器进入调试：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//编译时应加入可调试选项 -g；</span><br><span class="line">g++ -std=c++11 testthread.cpp -o testthread -lpthread -g</span><br><span class="line">//调用gdb命令进入调试界面</span><br><span class="line">gdb testthread</span><br></pre></td></tr></table></figure>
 
-<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><ol>
-<li>select的文件描述符集fd_set仅仅是文件描述符集合，<strong>没有将文件描述符和事件绑定</strong>，所以select需要向内核传入3个这种类型的参数分别处理可读、可写、异常事件；另外内核每次会在线修改fd_set，因此<strong>程序下次调用select前还需要重置fd_set</strong>；</li>
-<li>poll的参数类型pollfd把事件和文件描述符都定义在里面，<strong>只需要一个事件集参数</strong>，编程接口更加简洁；而且内核每次修改的是revents成员，没有改变events成员，因此<strong>下次调用poll时程序不需要重置pollfd</strong>；</li>
-<li>epoll是一组系统调用，具体有epoll_create，epoll_ctl和epoll_wait，它<strong>在内核中维护一个事件表</strong>，通过epoll_ctl来添加、删除和修改事件，每次调用epoll_wait直接从内核取得注册的事件信息，<strong>不需要反复从用户空间将事件读入内核</strong>；</li>
-<li><strong>select和poll每次返回的是用户注册的所有事件集合，</strong>包含就绪和未就绪事件，并且通过轮询的方式遍历整个文件描述符集合，导致<strong>程序索引就绪文件描述符的时间为O(n)**；epoll是通过回调的方式，内核检测到就绪事件触发回调函数，回调函数将该文件描述符插入内核就绪事件队列，由内核在适当时机将就绪事件队列内容拷贝到用户空间，</strong>epoll_wait返回的是就绪的事件个数<strong>，</strong>程序索引就绪文件描述符的时间为O(1)；**</li>
-<li>poll和epoll<strong>最多监听的文件描述符个数都能达到系统允许的最大数目</strong>65535，而<strong>select通常有限制；</strong></li>
-<li><strong>select和poll只能工作在水平触发LT模式</strong>，<strong>epoll可以工作在边缘出发ET模式</strong>，并且可以通过EPOLLONESHOT属性进一步减少可读可写异常的事件触发次数；</li>
-</ol>
-<h2 id="大小端字节序"><a href="#大小端字节序" class="headerlink" title="大小端字节序"></a>大小端字节序</h2><h3 id="大端字节序"><a href="#大端字节序" class="headerlink" title="大端字节序"></a>大端字节序</h3><p>又称网络字节序，数据的高位字节存放在内存的低地址处，低位字节存放在内存的高地址处；</p>
-<h3 id="小端字节序"><a href="#小端字节序" class="headerlink" title="小端字节序"></a>小端字节序</h3><p>又称主机字节序，数据的高位字节存放在内存的高地址处，低位字节存放在内存的低地址处；</p>
-<h2 id="短连接与长连接"><a href="#短连接与长连接" class="headerlink" title="短连接与长连接"></a>短连接与长连接</h2><h3 id="短连接"><a href="#短连接" class="headerlink" title="短连接"></a>短连接</h3><pre><code>服务端在处理完客户端的一个http请求以后主动关闭TCP连接，此后，客户端如果再发送http请求需要重新建立新的TCP连接，也就是说，**同一个客户的多个http请求不能共用同一个TCP连接</code></pre>
-<h3 id="长连接"><a href="#长连接" class="headerlink" title="长连接"></a>长连接</h3><pre><code>同一个客户的多个http请求可以共用同一个TCP连接，**即客户端在fasonghttp请求之后，再次发起http请求不需要重新建立新的TCP连接；</code></pre>
-<p>长连接的优势：<strong>极大减少网络建立TCP连接导致的负荷，同时缩短了每次请求的时间延迟</strong>。http请求和回答报文中的connection字段对应的closed与keep-alive分别对应短连接与长连接</p>
-<h2 id="I-O设计中reactor和proactor模式的区别"><a href="#I-O设计中reactor和proactor模式的区别" class="headerlink" title="I/O设计中reactor和proactor模式的区别"></a>I/O设计中reactor和proactor模式的区别</h2><ul>
-<li>1、 Reactor被动的等待指示事件的到来并作出反应，有一个等待的过程，做什么都要先放入到监听事件集合中等待handler可用时再进行操作，实现相对简单，对于耗时短的处理场景比较高效，但Reactor处理耗时长的操作会造成事件分发的阻塞，影响到后续事件的处理。 </li>
-<li>Proactor直接调用异步读写操作，调用完后立刻返回，实现了一个主动的事件分离和分发模型；这种设计允许多个任务并发的执行，从而提高吞吐量；并可执行耗时长的任务（各个任务间互不影响），Proactor性能更高，能够处理耗时长的并发场景，但Proactor实现逻辑复杂；依赖操作系统对异步的支持，目前实现了纯异步操作的操作系统少，实现优秀的如windows IOCP，但由于其windows系统用于服务器的局限性，目前应用范围较小；而Unix/Linux系统对纯异步的支持有限，应用事件驱动的主流还是通过select/epoll来实现。</li>
+<p>也可以先运行一个线程，再通过 ps -ef | grep 找到进程的PID，然后通过attach将进程附加到gdb调试器上</p>
+<blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">./server -c 1000 -t 20</span><br><span class="line">//另开端口查看PID</span><br><span class="line">ps -ef | grep server</span><br><span class="line">gdb attach [PID_num]</span><br><span class="line"></span><br><span class="line">oot@iZ2zed3d8a5mhbo5gb2m7rZ:~/webbench-1.5# gdb attach 18445</span><br><span class="line">GNU gdb (Ubuntu 7.11.1-0ubuntu1~16.5) 7.11.1</span><br><span class="line">Copyright (C) 2016 Free Software Foundation, Inc.</span><br><span class="line">License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;</span><br><span class="line">This is free software: you are free to change and redistribute it.</span><br><span class="line">There is NO WARRANTY, to the extent permitted by law.  Type &quot;show copying&quot;</span><br><span class="line">and &quot;show warranty&quot; for details.</span><br><span class="line">This GDB was configured as &quot;x86_64-linux-gnu&quot;.</span><br><span class="line">Type &quot;show configuration&quot; for configuration details.</span><br><span class="line">For bug reporting instructions, please see:</span><br><span class="line">&lt;http://www.gnu.org/software/gdb/bugs/&gt;.</span><br><span class="line">Find the GDB manual and other documentation resources online at:</span><br><span class="line">&lt;http://www.gnu.org/software/gdb/documentation/&gt;.</span><br><span class="line">For help, type &quot;help&quot;.</span><br><span class="line">Type &quot;apropos word&quot; to search for commands related to &quot;word&quot;...</span><br><span class="line">attach: No such file or directory.</span><br><span class="line">Attaching to process 18445</span><br><span class="line">[New LWP 18448]</span><br><span class="line">[New LWP 18449]</span><br><span class="line">[New LWP 18450]</span><br><span class="line">[New LWP 18451]</span><br><span class="line">[New LWP 18452]</span><br><span class="line">[New LWP 18453]</span><br><span class="line">[New LWP 18454]</span><br><span class="line">[New LWP 18455]</span><br><span class="line">[New LWP 18456]</span><br><span class="line">[New LWP 18457]</span><br><span class="line">[Thread debugging using libthread_db enabled]</span><br><span class="line">Using host libthread_db library &quot;/lib/x86_64-linux-gnu/libthread_db.so.1&quot;.</span><br><span class="line">0x00007f9ef4fb0a13 in epoll_wait () at ../sysdeps/unix/syscall-template.S:84</span><br><span class="line">84    ../sysdeps/unix/syscall-template.S: No such file or directory.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+</blockquote>
+<ul>
+<li>定位查看行号，打断点b， 查看断点信息</li>
 </ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//在指定文件指定行打断点</span><br><span class="line">(gdb) b threadpool.h:39</span><br><span class="line">Breakpoint 1 at 0x40d076: file ./threadpool/threadpool.h, line 39.</span><br><span class="line">(gdb) i b</span><br><span class="line">Num     Type           Disp Enb Address            What</span><br><span class="line">1       breakpoint     keep y   0x000000000040d076 in threadpool&lt;http_conn&gt;::threadpool(int, connection_pool*, int, int) at ./threadpool/threadpool.h:39</span><br></pre></td></tr></table></figure>
+
+<p>或者先查看文件行号信息，再确定打断点的位置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(gdb) l testthread.cpp:17</span><br><span class="line">12    </span><br><span class="line">13    void func(int num)&#123;</span><br><span class="line">14        while(true)&#123;</span><br><span class="line">15            sleep(1);</span><br><span class="line">16        lock_guard&lt;mutex&gt;lock(_mutex);</span><br><span class="line">17        total += num;</span><br><span class="line">18        cout &lt;&lt; &quot;num:&quot; &lt;&lt; num &lt;&lt; endl; </span><br><span class="line">19        &#125;</span><br><span class="line">20    &#125;</span><br><span class="line">21    </span><br><span class="line">(gdb) b 17</span><br><span class="line">Breakpoint 1 at 0x40118c: file testthread.cpp, line 17.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>运行程序</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//run</span><br><span class="line">(gdb) run </span><br><span class="line">//cintinue</span><br><span class="line">(gdb) c</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(gdb) run</span><br><span class="line">Starting program: /root/tets/testthread </span><br><span class="line">[Thread debugging using libthread_db enabled]</span><br><span class="line">Using host libthread_db library &quot;/lib/x86_64-linux-gnu/libthread_db.so.1&quot;.</span><br><span class="line">[New Thread 0x7ffff6f4e700 (LWP 14859)]</span><br><span class="line">[New Thread 0x7ffff674d700 (LWP 14860)]</span><br><span class="line">[Switching to Thread 0x7ffff6f4e700 (LWP 14859)]</span><br></pre></td></tr></table></figure>
+
+<pre><code>显示当前可调试的所有线程，gdb会为所线程编号分配一个ID，可以根据这个ID切换线程，‘*’表示当前正在调试的线程。</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(gdb) info threads</span><br><span class="line">  Id   Target Id         Frame</span><br><span class="line">  1    Thread 0x7ffff7fe3740 (LWP 15191) &quot;testthread&quot; 0x00007ffff7bc298d in pthread_join (threadid=140737336633088, thread_return=0x0) at pthread_join.c:90</span><br><span class="line">* 2    Thread 0x7ffff6f4e700 (LWP 15195) &quot;testthread&quot; fun (num=3) at testthread.cpp:17</span><br><span class="line">  3    Thread 0x7ffff674d700 (LWP 15196) &quot;testthread&quot; fun (num=5) at testthread.cpp:17</span><br><span class="line">(gdb)</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>调试目标ID指定的线程</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//thread [ID]</span><br><span class="line">(gdb) thread 1</span><br><span class="line">[Switching to thread 1 (Thread 0x7ffff7feb740 (LWP 14855))]</span><br><span class="line"><span class="meta">#</span><span class="bash">0  0x00007ffff7bc298d <span class="keyword">in</span> pthread_join (threadid=140737336633088, thread_return=0x0) at pthread_join.c:90</span></span><br><span class="line">90    pthread_join.c: No such file or directory.</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>执行下一步</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// next</span><br><span class="line">n</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>选择调试父进程或者子进程，通过设置follow-fork-mode parent/child 选择。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//选项设置parent则调试父进程，反之则子进程</span><br><span class="line">(gdb) set follow-fork-mode [parent/child]</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>只让被调试线程运行。调试多线程时，除了当前被调试的线程，其他线程默认也在继续运行，设置schdular-locking 可以只让被调试的线程运行，off表示不锁定任何线程，即所有线程都可以运行，on表示只有当前线程运行，step表示单步执行时只有当前线程运行。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(gdb) set scheduler-locking on</span><br><span class="line">(gdb) n</span><br><span class="line">do_futex_wait (sem=sem@entry=0x1d2dae0, abstime=0x0) at sem_waitcommon.c:111</span><br><span class="line">111    sem_waitcommon.c: No such file or directory.</span><br><span class="line">(gdb) n</span><br><span class="line">120    in sem_waitcommon.c</span><br><span class="line">(gdb) n</span><br><span class="line">__new_sem_wait_slow (sem=0x1d2dae0, abstime=0x0) at sem_waitcommon.c:191</span><br><span class="line">191    in sem_waitcommon.c</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>显示子线程的调用栈bt</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(gdb) bt</span><br><span class="line"><span class="meta">#</span><span class="bash">0  __new_sem_wait_slow (sem=0x1d2dae0, abstime=0x0) at sem_waitcommon.c:191</span></span><br><span class="line"><span class="meta">#</span><span class="bash">1  0x00007f9ef5dd197a <span class="keyword">in</span> __new_sem_wait (sem=&lt;optimized out&gt;) at sem_wait.c:29</span></span><br><span class="line"><span class="meta">#</span><span class="bash">2  0x000000000040ab68 <span class="keyword">in</span> sem::<span class="built_in">wait</span> (this=0x1d2dae0) at CGImysql/../lock/locker.h:31</span></span><br><span class="line"><span class="meta">#</span><span class="bash">3  0x000000000040d5e6 <span class="keyword">in</span> threadpool&lt;http_conn&gt;::run (this=0x1d2da90) at ./threadpool/threadpool.h:104</span></span><br><span class="line"><span class="meta">#</span><span class="bash">4  0x000000000040d44a <span class="keyword">in</span> threadpool&lt;http_conn&gt;::worker (arg=0x1d2da90) at ./threadpool/threadpool.h:96</span></span><br><span class="line"><span class="meta">#</span><span class="bash">5  0x00007f9ef5dc96ba <span class="keyword">in</span> start_thread (arg=0x7f9ee3e3e700) at pthread_create.c:333</span></span><br><span class="line"><span class="meta">#</span><span class="bash">6  0x00007f9ef4fb041d <span class="keyword">in</span> <span class="built_in">clone</span> () at ../sysdeps/unix/sysv/linux/x86_64/clone.S:109</span></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>推出调试状态</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) q</span><br></pre></td></tr></table></figure>
+
+<p>实际调试多进程或者多线程时，可以先将进程池或者线程池的数量设为1，观察程序逻辑是否正常，然后逐渐增加数量，调试程序是否正确。</p>
 
     </div>
 
@@ -300,12 +339,12 @@ post posts-expand
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>文章标题:</span><a href="/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></p>
+  <p><span>文章标题:</span><a href="/2020/09/01/gdb%E8%B0%83%E8%AF%95%E5%9F%BA%E7%A1%80/">gdb调试基础</a></p>
   <p><span>文章作者:</span><a href="/" title="访问  的个人博客"> 若叶 </a></p>
-  <p><span>发布时间:</span>2020年08月13日 - 14:20</p>
-  <p><span>最后更新:</span>2020年08月14日 - 09:28</p>
-  <p><span>原始链接:</span><a href="/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" title="网络编程">https://wangyinfeng123.github.io/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://wangyinfeng123.github.io/2020/08/13/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2020年09月01日 - 16:19</p>
+  <p><span>最后更新:</span>2020年09月01日 - 16:43</p>
+  <p><span>原始链接:</span><a href="/2020/09/01/gdb%E8%B0%83%E8%AF%95%E5%9F%BA%E7%A1%80/" title="gdb调试基础">https://wangyinfeng123.github.io/2020/09/01/gdb%E8%B0%83%E8%AF%95%E5%9F%BA%E7%A1%80/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://wangyinfeng123.github.io/2020/09/01/gdb%E8%B0%83%E8%AF%95%E5%9F%BA%E7%A1%80/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -354,11 +393,6 @@ post posts-expand
 
 
       <footer class="post-footer">
-          
-          <div class="post-tags">
-              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
-              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag"><i class="fa fa-tag"></i> 网络编程</a>
-          </div>
 
         
 
@@ -366,13 +400,10 @@ post posts-expand
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/08/12/hello-world/" rel="prev" title="Hello World">
-      <i class="fa fa-chevron-left"></i> Hello World
+    <a href="/2020/08/20/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" rel="prev" title="Linux网络编程常用指令">
+      <i class="fa fa-chevron-left"></i> Linux网络编程常用指令
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/08/17/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/" rel="next" title="布隆过滤器">
-      布隆过滤器 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -436,7 +467,6 @@ post posts-expand
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%90%8C%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">相同点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E9%9D%9E%E9%98%BB%E5%A1%9E"><span class="nav-number">1.1.</span> <span class="nav-text">同步非阻塞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E4%BA%A4%E4%BA%92"><span class="nav-number">1.2.</span> <span class="nav-text">内核交互</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%BA%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text">区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E5%B0%8F%E7%AB%AF%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="nav-number">3.</span> <span class="nav-text">大小端字节序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E7%AB%AF%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="nav-number">3.1.</span> <span class="nav-text">大端字节序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%AB%AF%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="nav-number">3.2.</span> <span class="nav-text">小端字节序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%AD%E8%BF%9E%E6%8E%A5%E4%B8%8E%E9%95%BF%E8%BF%9E%E6%8E%A5"><span class="nav-number">4.</span> <span class="nav-text">短连接与长连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%AD%E8%BF%9E%E6%8E%A5"><span class="nav-number">4.1.</span> <span class="nav-text">短连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%BF%E8%BF%9E%E6%8E%A5"><span class="nav-number">4.2.</span> <span class="nav-text">长连接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#I-O%E8%AE%BE%E8%AE%A1%E4%B8%ADreactor%E5%92%8Cproactor%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">5.</span> <span class="nav-text">I&#x2F;O设计中reactor和proactor模式的区别</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

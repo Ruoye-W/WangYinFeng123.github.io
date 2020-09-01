@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangyinfeng123.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="总结常用的Linux网络编程命令，助力调试和网络系统信息查看。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux网络编程常用指令">
+<meta property="og:url" content="https://wangyinfeng123.github.io/2020/08/20/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/index.html">
+<meta property="og:site_name" content="若 叶">
+<meta property="og:description" content="总结常用的Linux网络编程命令，助力调试和网络系统信息查看。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-20T03:34:12.000Z">
+<meta property="article:modified_time" content="2020-09-01T07:45:16.619Z">
+<meta property="article:author" content="若叶">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wangyinfeng123.github.io/2020/08/20/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<script src="/lib/fireworks.js"></script>
+  <title>
+
+	Linux网络编程常用指令 | 若 叶
+	
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="若 叶" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/WangYinFeng123" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">若 叶</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content 
+
+post posts-expand
+
+">
+            
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wangyinfeng123.github.io/2020/08/20/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="若叶">
+      <meta itemprop="description" content="牢骚太盛防肠断，风物长宜放眼量">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="若 叶">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux网络编程常用指令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-20 11:34:12" itemprop="dateCreated datePublished" datetime="2020-08-20T11:34:12+08:00">2020-08-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-01 15:45:16" itemprop="dateModified" datetime="2020-09-01T15:45:16+08:00">2020-09-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>总结常用的Linux网络编程命令，助力调试和网络系统信息查看。</p>
+<a id="more"></a>
+
+<h3 id="daemon"><a href="#daemon" class="headerlink" title="daemon"></a><strong>daemon</strong></h3><p>注册守护进程 。将一个进程注册为守护进程可以在后台运行，脱离当前终端的限制，具体流程是：先fork一个子进程，然后关闭对应的父进程，设置文件权限掩码，再调用setsid()创建一个新的会话，同时设置本进程为进程组的首领，切换工作目录以后关闭标准输入输出和错误，将标准输入输出错误重定向到/dev/null文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">bool daemon()&#123;</span><br><span class="line">    pid_t pid = fork();</span><br><span class="line">    assert(pid &gt;= 0);</span><br><span class="line">    if(pid &gt; 0)</span><br><span class="line">        exit(0);</span><br><span class="line">    umask(0);</span><br><span class="line">    pid_t sid = setsid();</span><br><span class="line">    assert(sid &gt;= 0);</span><br><span class="line">    assert(chdir(&quot;/&quot;) &gt;= 0);</span><br><span class="line">    close(STDIN_FILENO);</span><br><span class="line">    close(STDOUT_FILENO);</span><br><span class="line">    close(STDERR_FILENO);</span><br><span class="line">    open(&quot;/dev/null&quot;, O_RDONLY);</span><br><span class="line">    open(&quot;/dev/null&quot;, O_RDWR);</span><br><span class="line">    open(&quot;/dev/null&quot;, O_RDWR);</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以通过系统提供的库函数daemon实现注册守护进程。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int daemon(int nochdir, int noclose)；</span><br></pre></td></tr></table></figure>
+
+<p>关闭守护进程时通过<strong>ps+grep</strong>找到对应的后台进程，使用kill命令将进程杀死。</p>
+<h3 id="ps"><a href="#ps" class="headerlink" title="ps"></a><strong>ps</strong></h3><p>查看进程、进程组和会话之间的关系，默认情况下，ps只会列出与当前终端有关的进程信息</p>
+<p>//显示与终端有关的进程信息 ps //按照UNIX Style显示全部进程信息,BSD 格式 ps aux //按照SYSTEM Style显示全部进程信息 ps -ef //根据条件过滤进程，查找想要的进程 ps aux | grep [条件] ps -ef | grep [条件] //动态查看进程 top //树形图的方式显示各进程之间的关系 pstree</p>
+<h3 id="ping"><a href="#ping" class="headerlink" title="ping"></a><strong>ping</strong></h3><p>检查和监测网络，ping会向指定网址所在主机发送特殊的网络数据包ICMP_ECHO_REQUEST，大多数接收到包的设备会回复，进而检测网络连接</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//显示与终端有关的进程信息</span><br><span class="line">ps</span><br><span class="line">//按照UNIX Style显示全部进程信息,BSD 格式</span><br><span class="line">ps aux</span><br><span class="line">//按照SYSTEM Style显示全部进程信息</span><br><span class="line">ps -ef</span><br><span class="line">//根据条件过滤进程，查找想要的进程</span><br><span class="line">ps aux | grep [条件]</span><br><span class="line">ps -ef | grep [条件]</span><br><span class="line">//动态查看进程</span><br><span class="line">top</span><br><span class="line">//树形图的方式显示各进程之间的关系</span><br><span class="line">pstree</span><br></pre></td></tr></table></figure>
+
+<h3 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a><strong>netstat</strong></h3><pre><code> 可以检查网络设置和统计数据。打印本地网卡全部连接、路由表信息、网卡接口信息。常用于现实TCP连接及其状态。更具体的路由表和网卡接口信息可以参考 route 和 ifconfig。</code></pre>
+<blockquote>
+<p>-n：使用IP地址表示主机，使用数字表示端口号；</p>
+<p>-a：包含显示监听socket；</p>
+<p>-t：仅显示TCP连接；</p>
+<p>-r：显示路由信息；</p>
+<p>-i：显示网卡接口的数据流量</p>
+<p>-c：每隔1秒输出一次；</p>
+<p>-o：显示socket定时器信息</p>
+<p>-p：显示socket所属进程的PID和名字</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//查看网络接口</span><br><span class="line">netstat -ie</span><br><span class="line"></span><br><span class="line">Kernel Interface table</span><br><span class="line">eth0      Link encap:Ethernet  HWaddr 00:16:3e:2e:fb:23  </span><br><span class="line">          inet addr:172.17.127.86  Bcast:172.17.127.255  Mask:255.255.240.0</span><br><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:4907900 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:3827115 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000 </span><br><span class="line">          RX bytes:804903156 (804.9 MB)  TX bytes:2747292091 (2.7 GB)</span><br><span class="line"></span><br><span class="line">lo        Link encap:Local Loopback  </span><br><span class="line">          inet addr:127.0.0.1  Mask:255.0.0.0</span><br><span class="line">          UP LOOPBACK RUNNING  MTU:65536  Metric:1</span><br><span class="line">          RX packets:22990617 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:22990617 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1 </span><br><span class="line">          RX bytes:1669295103 (1.6 GB)  TX bytes:1669295103 (1.6 GB)</span><br></pre></td></tr></table></figure>
+
+<p>​      </p>
+<p>​        其中eth0是以太网接口，lo是内部回环网络接口，这是一个虚拟接口。执行日常网络诊断时，要查看的重要信息是每个网络接口第四行开头出现的单词“UP”，说明这个网络接口已经生效，还要查看第二行中 inet addr 字段出现的有效 IP 地址。对于使用 DHCP（动态主机配置协议）的系统，在这个字段中的一个有效 IP 地址则证明了 DHCP工作正常。</p>
+<p>​        IP 地址以零结尾是指网络，而不是独立主机，所以如果出现 192.168.1.0 这意味着局域网中的任何一台主机。Gateway 是网关名字或 IP 地址，用来连接当前的主机和目的地的网络。若这个字段显示一个星号，则表明不需要网关。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//-r 显示内核的网络路由表 </span><br><span class="line">netstat -r</span><br><span class="line"></span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface</span><br><span class="line">default         172.17.127.253  0.0.0.0         UG        0 0          0 eth0</span><br><span class="line">172.17.112.0    *               255.255.240.0   U         0 0          0 eth0</span><br></pre></td></tr></table></figure>
+
+<p>使用telnet发起连接请求以后，查看本地具体某端口的连接状态</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@iZ2zed3d8a5mhbo5gb2m7rZ:~# netstat -nat | grep 127.0.0.1:9007</span><br><span class="line">tcp        0      0 127.0.0.1:9007          127.0.0.1:42852         ESTABLISHED</span><br><span class="line">tcp        0      0 127.0.0.1:42852         127.0.0.1:9007          ESTABLISHED</span><br><span class="line">tcp        0      0 127.0.0.1:9007          127.0.0.1:42844         ESTABLISHED</span><br><span class="line">tcp        0      0 127.0.0.1:42844         127.0.0.1:9007          ESTABLISHED</span><br></pre></td></tr></table></figure>
+
+<h3 id="vmstat"><a href="#vmstat" class="headerlink" title="vmstat"></a><strong>vmstat</strong></h3><p>​        显示系统内存使用情况。比如进程信息，内存使用，CPU使用率以及I/O使用。常用选项如下：</p>
+<blockquote>
+<p>-f：显示系统启动以来fork次数；</p>
+<p>-s：显示内存统计信息以及系统活动数量（CPU上下文切换次数）</p>
+<p>-S：使用指定单位显示，k，K，m，M分别代表1000，1024，100 0000和1048576字节。</p>
+<p>delay：采样间隔</p>
+<p>count：采样次数</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@iZ2zed3d8a5mhbo5gb2m7rZ:~# vmstat -S K</span><br><span class="line">//进程信息 。     内存信息 。         虚拟内存     I/O 。    系统信息      CPU信息</span><br><span class="line">procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----</span><br><span class="line"> r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st</span><br><span class="line"> 3  0      0 531512 193368 874068    0    0     0     4    2    1  1  1 99  0  0</span><br></pre></td></tr></table></figure>
+
+<p>系统信息中，in表示每秒发生的中断次数，cs表示上下文（进程）切换次数</p>
+<p>CPU信息中，wa表示等待I/O事件的时间占用CPU总运行时间时间的比例</p>
+<h3 id="ifstat"><a href="#ifstat" class="headerlink" title="ifstat"></a><strong>ifstat</strong></h3><p>网络流量监测。常用选项如下：</p>
+<blockquote>
+<p>-a：检测所有网卡接口</p>
+<p>-i：指定要监测的网卡接口；</p>
+<p>-t：每行输出信息前加上时间戳；</p>
+<p>-b：以Kbit/s单位显示数据，而不是默认的KB/S；</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@iZ2zed3d8a5mhbo5gb2m7rZ:~# ifstat -a -b</span><br><span class="line">        lo                 eth0       </span><br><span class="line"> Kbps in  Kbps out   Kbps in  Kbps out</span><br><span class="line">    0.00      0.00      1.36     12.36</span><br><span class="line">    0.00      0.00      0.52      5.53</span><br><span class="line">    0.00      0.00      0.52      1.11</span><br><span class="line">    0.00      0.00      6.96     66.96</span><br></pre></td></tr></table></figure>
+
+<h3 id="strace"><a href="#strace" class="headerlink" title="strace"></a><strong>strace</strong></h3><p>​    <strong>测试服务器性能</strong>。跟踪程序运行过程中的系统调用和接收到的信号，并将系统调用名、参数、返回值、信号输出到标准输出或指定文件。常用选项如下：</p>
+<blockquote>
+<p>-c：统计每个系统调用执行时间、执行次数、出错次数；</p>
+<p>-f：跟踪fork生成的子进程；</p>
+<p>-t：输出的信息前加上时间信息；</p>
+<p>-e：指定表达式控制跟踪系统调用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-e trace=[set/open/read/write/close/file/process/network/signal/ipc/set]</span><br></pre></td></tr></table></figure>
+
+<p>-o：写入指定文件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">root@iZ2zed3d8a5mhbo5gb2m7rZ:~# strace -p 18492 -t</span><br><span class="line">strace: Process 18492 attached</span><br><span class="line">&#x2F;&#x2F;检测到文件描述符15的可读事件，还可结合lsof确定是新连接请求还是读事件</span><br><span class="line">10:46:20 epoll_wait(14, [&#123;EPOLLIN, &#123;u32&#x3D;15, u64&#x3D;11442492921853509647&#125;&#125;], 10000, -1) &#x3D; 1</span><br><span class="line">10:46:20 recvfrom(15, &quot;\16&quot;, 1024, 0, NULL, NULL) &#x3D; 1</span><br><span class="line">10:46:20 alarm(5)                       &#x3D; 0</span><br><span class="line">10:46:20 epoll_wait(14, 0x7ffc9eca11cc, 10000, -1) &#x3D; -1 EINTR (Interrupted system call)</span><br><span class="line">10:46:25 --- SIGALRM &#123;si_signo&#x3D;SIGALRM, si_code&#x3D;SI_KERNEL&#125; ---</span><br><span class="line">10:46:25 sendto(16, &quot;\16&quot;, 1, 0, NULL, 0) &#x3D; 1</span><br><span class="line">10:46:25 rt_sigreturn(&#123;mask&#x3D;[]&#125;)        &#x3D; -1 EINTR (Interrupted system call)</span><br><span class="line">10:46:25 epoll_wait(14, [&#123;EPOLLIN, &#123;u32&#x3D;15, u64&#x3D;11442492921853509647&#125;&#125;], 10000, -1) &#x3D; 1</span><br><span class="line">10:46:25 recvfrom(15, &quot;\16&quot;, 1024, 0, NULL, NULL) &#x3D; 1</span><br><span class="line">10:46:25 alarm(5)                       &#x3D; 0</span><br><span class="line">10:46:25 epoll_wait(14, ^Cstrace: Process 18492 detached</span><br><span class="line"> &lt;detached ...&gt;</span><br><span class="line">root@iZ2zed3d8a5mhbo5gb2m7rZ:~# </span><br></pre></td></tr></table></figure>
+
+<p><strong>strace命令可以清楚地显示每次系统调用发生的事件，具体参数和执行流程，相对于gdb调试更加方便。</strong></p>
+<h3 id="nc"><a href="#nc" class="headerlink" title="nc"></a><strong>nc</strong></h3><p>​    <strong>快速构建网络连接</strong>。可以调试客户端程序，也可以让它以客户端方式运行向服务器发起连接并收发数据。nc</p>
+<p>命令可以快速测试与查找服务器的错误。常用选项如下：</p>
+<blockquote>
+<p>-i：设置数据包传送间隔；</p>
+<p>-l：以服务器方式运行，监听指定端口。默认以客户端方式运行；</p>
+<p>-k：重复接受并处理连接，与-l连用；</p>
+<p>-n：IP地址表示主机，数字表示端口号；</p>
+<p>-p：客户端方式运行时强制使用指定端口号。</p>
+<p>-s：设置本地发送数据包的IP地址；</p>
+<p>-U：使用UNIX本地域协议通信；</p>
+<p>-u：使用UDP协议，默认是TCP协议；</p>
+<p>-x：指定目标代理服务器的IP地址和端口号；</p>
+<p>-w：客户端指定时间内未监测到输入则退出；</p>
+</blockquote>
+<p>每次按回车键发送一行数据时，nc客户端都会给服务器额外发送一个<CR><LF></LF></CR></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">//连接服务器并发送数据</span><br><span class="line">nc -C 127.0.0.1 9007</span><br><span class="line"></span><br><span class="line">root@iZ2zed3d8a5mhbo5gb2m7rZ:~# nc -C 127.0.0.1 9007</span><br><span class="line">GET http://localhost:9007/0 HTTP/1.1</span><br><span class="line">Host: localhost</span><br><span class="line"></span><br><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Content-Length:724</span><br><span class="line">Connection:close</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">        &lt;title&gt;Sign up&lt;/title&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">&lt;br/&gt;</span><br><span class="line">&lt;br/&gt;</span><br><span class="line">    &lt;div align=&quot;center&quot;&gt;&lt;font size=&quot;5&quot;&gt; &lt;strong&gt;注册&lt;/strong&gt;&lt;/font&gt;&lt;/div&gt;</span><br><span class="line">    &lt;br/&gt;</span><br><span class="line">        &lt;div class=&quot;login&quot;&gt;</span><br><span class="line">                &lt;form action=&quot;3CGISQL.cgi&quot; method=&quot;post&quot;&gt;</span><br><span class="line">                        &lt;div align=&quot;center&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;user&quot; placeholder=&quot;用户名&quot; required=&quot;required&quot;&gt;&lt;/div&gt;&lt;br/&gt;</span><br><span class="line">                        &lt;div align=&quot;center&quot;&gt;&lt;input type=&quot;password&quot; name=&quot;password&quot; placeholder=&quot;用户密码&quot; required=&quot;required&quot;&gt;&lt;/div&gt;&lt;br/&gt;</span><br><span class="line">                        &lt;div align=&quot;center&quot;&gt;&lt;button type=&quot;submit&quot;&gt;注册&lt;/button&gt;&lt;/div&gt;</span><br><span class="line">                &lt;/form&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="lsof"><a href="#lsof" class="headerlink" title="lsof"></a><strong>lsof</strong></h3><p>列出当前系统打开的所有文件描述符。常用选项：</p>
+<blockquote>
+<p>-i：显示socket文件描述符；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;ipv4&#x2F;ipv6, 传输层协议，主机名，IP地址，服务名，端口 lsof -i [4&#x2F;6] [protocol][@hostname|ipaddr][:service|port]</span><br></pre></td></tr></table></figure>
+
+<p>-u：显示指定用户启动的所有进程打开的所有文件描述符；</p>
+<p>-c：显示指定命令打开的所有文件描述符；</p>
+<p>-p：指定进程打开的所有文件描述符；</p>
+<p>-t：仅显示打开目标文件描述符的进程PID；</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">root@iZ2zed3d8a5mhbo5gb2m7rZ:~# lsof -p 18492</span><br><span class="line">COMMAND   PID USER   FD      TYPE             DEVICE SIZE/OFF     NODE NAME</span><br><span class="line">server  18492 root  cwd       DIR              253,1     4096  1183487 /root/TinyServer/TinyWebServer</span><br><span class="line">server  18492 root  rtd       DIR              253,1     4096        2 /</span><br><span class="line">server  18492 root  txt       REG              253,1   443816  1183686 /root/TinyServer/TinyWebServer/server</span><br><span class="line">server  18492 root  mem       REG              253,1    47600   131637 /lib/x86_64-linux-gnu/libnss_files-2.23.so</span><br><span class="line">server  18492 root  mem       REG              253,1  1088952   131614 /lib/x86_64-linux-gnu/libm-2.23.so</span><br><span class="line">server  18492 root  mem       REG              253,1  2365984   131590 /lib/x86_64-linux-gnu/libcrypto.so.1.0.0</span><br><span class="line">server  18492 root  mem       REG              253,1   428384   131594 /lib/x86_64-linux-gnu/libssl.so.1.0.0</span><br><span class="line">server  18492 root  mem       REG              253,1   104864   136960 /lib/x86_64-linux-gnu/libz.so.1.2.8</span><br><span class="line">server  18492 root  mem       REG              253,1    14608   131587 /lib/x86_64-linux-gnu/libdl-2.23.so</span><br><span class="line">server  18492 root  mem       REG              253,1  1868984   131573 /lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">server  18492 root  mem       REG              253,1    89696   131599 /lib/x86_64-linux-gnu/libgcc_s.so.1</span><br><span class="line">server  18492 root  mem       REG              253,1  1566440   271500 /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21</span><br><span class="line">server  18492 root  mem       REG              253,1  3872160   264207 /usr/lib/x86_64-linux-gnu/libmysqlclient.so.20.3.17</span><br><span class="line">server  18492 root  mem       REG              253,1   138696   131660 /lib/x86_64-linux-gnu/libpthread-2.23.so</span><br><span class="line">server  18492 root  mem       REG              253,1   162632   131549 /lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">server  18492 root    0u      CHR              136,0      0t0        3 /dev/pts/0</span><br><span class="line">server  18492 root    1u      CHR              136,0      0t0        3 /dev/pts/0</span><br><span class="line">server  18492 root    2u      CHR              136,0      0t0        3 /dev/pts/0</span><br><span class="line">server  18492 root    3u     unix 0xffff880058a14000      0t0 21188863 type=STREAM</span><br><span class="line">server  18492 root    4u     unix 0xffff880058a14800      0t0 21188865 type=STREAM</span><br><span class="line">server  18492 root    5u     unix 0xffff880058a15800      0t0 21188867 type=STREAM</span><br><span class="line">server  18492 root    6u     unix 0xffff880035100400      0t0 21188869 type=STREAM</span><br><span class="line">server  18492 root    7u     unix 0xffff88007c11e400      0t0 21188871 type=STREAM</span><br><span class="line">server  18492 root    8u     unix 0xffff88007b1fc800      0t0 21188873 type=STREAM</span><br><span class="line">server  18492 root    9u     unix 0xffff88007aaa6800      0t0 21188875 type=STREAM</span><br><span class="line">server  18492 root   10u     unix 0xffff88007c27dc00      0t0 21188877 type=STREAM</span><br><span class="line">server  18492 root   11u     unix 0xffff88007c27cc00      0t0 21188879 type=STREAM</span><br><span class="line">server  18492 root   12u     unix 0xffff88007c230c00      0t0 21188881 type=STREAM</span><br><span class="line">server  18492 root   13u     IPv4           21188883      0t0      TCP *:9007 (LISTEN)</span><br><span class="line">server  18492 root   14u  a_inode               0,11        0     6993 [eventpoll]</span><br><span class="line">server  18492 root   15u     unix 0xffff88007c16a800      0t0 21188884 type=STREAM</span><br><span class="line">server  18492 root   16u     unix 0xffff88007c16a400      0t0 21188885 type=STREAM</span><br><span class="line">server  18492 root   17u     IPv4           21189422      0t0      TCP localhost:9007-&gt;localhost:42844 (ESTABLISHED)</span><br><span class="line">server  18492 root   18u     IPv4           21189582      0t0      TCP localhost:9007-&gt;localhost:42852 (ESTABLISHED)</span><br></pre></td></tr></table></figure>
+
+<h3 id="tcpdump"><a href="#tcpdump" class="headerlink" title="tcpdump"></a><strong>tcpdump</strong></h3><p>网络抓包工具。常用选项：</p>
+<blockquote>
+<p>-n：IP显示主机而不是主机名，数字表示端口号而不是服务名称；</p>
+<p>-i：指定监听的网卡接口；</p>
+<p>-v：输出更详细的信息；</p>
+<p>-t：不打印时间戳；</p>
+<p>-e：仅显示以太网帧头部信息；</p>
+<p>-c：仅抓取指定数量的数据包；</p>
+<p>-x：十六进制显示数据包内容；</p>
+<p>-s：设置抓包时的抓取长度；</p>
+<p>-S：以绝对值显示TCP报文段的序号；</p>
+<p>-r：从文件读取数据包并显示；</p>
+</blockquote>
+<p>还可以根据表达式进一步过滤数据。具体操作包括：类型、方向、协议。</p>
+<ol>
+<li>类型：支持host，port，net，postrange，分别指定主机名，端口号，网络地址，端口范围</li>
+<li>方向：src指定发送数据包的发送端，dst指定目的端。</li>
+<li>协议：指定目标协议。比如ICMP协议</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">root@iZ2zed3d8a5mhbo5gb2m7rZ:~# tcpdump -c 1 -x dst port 9007</span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span><br><span class="line">listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line"></span><br><span class="line">11:23:14.330200 IP 218.197.198.148.4999 &gt; iZ2zed3d8a5mhbo5gb2m7rZ.9007: Flags [S], seq 1426509253, win 65535, options [mss 1460,nop,wscale 6,nop,nop,TS val 1588671432 ecr 0,sackOK,eol], length 0</span><br><span class="line">    0x0000:  4514 0040 0000 4000 3506 78e2 dac5 c694</span><br><span class="line">    0x0010:  ac11 7f56 c34a 232f 5506 cdc5 0000 0000</span><br><span class="line">    0x0020:  b002 ffff ce7a 0000 0204 05b4 0103 0306</span><br><span class="line">    0x0030:  0101 080a 5eb1 33c8 0000 0000 0402 0000</span><br><span class="line">1 packet captured</span><br><span class="line">1 packet received by filter</span><br><span class="line">0 packets dropped by kernel</span><br></pre></td></tr></table></figure>
+
+<h3 id="telnet"><a href="#telnet" class="headerlink" title="telnet"></a><strong>telnet</strong></h3><p><strong>远程终端登录协议</strong>。可以确定远程服务端口访问状态。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//telnet [参数] [主机]</span><br><span class="line">//telnet www.baidu.com</span><br><span class="line">root@iZ2zed3d8a5mhbo5gb2m7rZ:~# telnet 127.0.0.1 9007</span><br><span class="line">Trying 127.0.0.1...</span><br><span class="line">Connected to 127.0.0.1.</span><br><span class="line">Escape character is &#x27;^]&#x27;.</span><br><span class="line">^C</span><br><span class="line">Connection closed by foreign host.</span><br></pre></td></tr></table></figure>
+
+<p>常见telnet连接失败原因：</p>
+<ol>
+<li>IP地址、网址或者端口输入错误；</li>
+<li>远程服务器主机未开启相应端口服务；</li>
+<li>服务器开启了防火墙，或者未打开该端口的访问权限；</li>
+<li>输入网址后域名解析出现错误；</li>
+<li>如果主机已经启动，可能路由设置存在问题；</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+      
+
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>文章标题:</span><a href="/2020/08/20/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/">Linux网络编程常用指令</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问  的个人博客"> 若叶 </a></p>
+  <p><span>发布时间:</span>2020年08月20日 - 11:34</p>
+  <p><span>最后更新:</span>2020年09月01日 - 15:45</p>
+  <p><span>原始链接:</span><a href="/2020/08/20/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" title="Linux网络编程常用指令">https://wangyinfeng123.github.io/2020/08/20/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://wangyinfeng123.github.io/2020/08/20/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          icon: "success",
+          showConfirmButton: true
+          });
+	});
+    });
+</script>
+
+
+      
+    </div>
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+      
+    </div>
+        <div class="reward-container">
+  <div>您的支持将鼓励我继续创作!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/WechatPay.jpeg" alt="若叶 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/17/bitset/" rel="prev" title="bitset">
+      <i class="fa fa-chevron-left"></i> bitset
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/01/gdb%E8%B0%83%E8%AF%95%E5%9F%BA%E7%A1%80/" rel="next" title="gdb调试基础">
+      gdb调试基础 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81MTMxMi8yNzc5Mw=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#daemon"><span class="nav-number">1.</span> <span class="nav-text">daemon</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ps"><span class="nav-number">2.</span> <span class="nav-text">ps</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ping"><span class="nav-number">3.</span> <span class="nav-text">ping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#netstat"><span class="nav-number">4.</span> <span class="nav-text">netstat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vmstat"><span class="nav-number">5.</span> <span class="nav-text">vmstat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ifstat"><span class="nav-number">6.</span> <span class="nav-text">ifstat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#strace"><span class="nav-number">7.</span> <span class="nav-text">strace</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nc"><span class="nav-number">8.</span> <span class="nav-text">nc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lsof"><span class="nav-number">9.</span> <span class="nav-text">lsof</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcpdump"><span class="nav-number">10.</span> <span class="nav-text">tcpdump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#telnet"><span class="nav-number">11.</span> <span class="nav-text">telnet</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="若叶"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">若叶</p>
+  <div class="site-description" itemprop="description">牢骚太盛防肠断，风物长宜放眼量</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/WangYinFeng123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;WangYinFeng123" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1280087919@qq.com" title="E-Mail → 1280087919@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">若叶</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">20k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">18 分钟</span>
+</div>
+
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
